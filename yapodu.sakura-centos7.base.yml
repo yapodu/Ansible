@@ -1,0 +1,48 @@
+- hosts: all
+##  user: vagrant
+##  sudo: yes
+
+  vars:
+    root_vim_dir: ~root/.vim/after/plugin/
+    root_vim_common: ~root/.vim/after/plugin/common-settings.vim
+
+  tasks: 
+    - name: "OS設定時RPMのインストール"
+      yum: name={{ item }} state=latest 
+      with_items:
+        - git
+        - bind-utils
+        - wget
+        - man
+        - gcc
+        - make
+        - sysstat
+        - man-pages-ja
+        - traceroute
+        - iotop
+        - vim
+        - tcpdump
+        - dmidecode
+      tags: pkg
+
+    - name: "ypadmin作成スクリプト実行"
+      script: SHELL/add_ypadmin/create-ypadmin.sh
+      tags: "legacy shell script"
+
+    - name: "root用 vim commonディレクトリ作成"
+      file: dest={{ root_vim_dir }} state=directory
+      tags: vim
+    - name: "root用 vim commonファイル作成"
+      file: dest={{ root_vim_common }} state=touch
+      tags: vim
+    - name: "改行時の自動コメントアウトを無効化"
+      lineinfile: dest={{ root_vim_common }} line="au FileType * setlocal formatoptions-=ro"
+      tags: vim
+
+    - name: "yum update 実行"
+      yum: name=* state=latest
+      tags: pkg
+
+
+
+
