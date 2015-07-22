@@ -29,6 +29,13 @@
       script: SHELL/add_ypadmin/create-ypadmin.sh
       tags: "legacy shell script"
 
+    - name: "copy key-gen.sh"
+      copy: src=SHELL/add_yp-study/key-gen.sh dest=/tmp/key-gen.sh owner=root group=root mode=0755
+
+    - name: "yp-study作成スクリプト実行"
+      script: SHELL/add_yp-study/useradd.sh
+      tags: "legacy shell script"
+
     - name: "root用 vim commonディレクトリ作成"
       file: dest={{ root_vim_dir }} state=directory
       tags: vim
