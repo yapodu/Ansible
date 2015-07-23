@@ -70,9 +70,9 @@ grep '#PermitRootLogin yes' ${SSHD_CONFIG}
 
 if [ "$?" -eq 0 ]
 then
-	echo "not change sshd_config PermitRootLogin ${DATE}" >> ~ypadmin/${CREATE_LOG}
-else
 	sed -i -e 's/#PermitRootLogin.*yes/PermitRootLogin no/g' ${SSHD_CONFIG}
+else
+	echo "not change sshd_config PermitRootLogin ${DATE}" >> ~ypadmin/${CREATE_LOG}
 fi
 
 grep  ^AllowUsers ${SSHD_CONFIG} | grep ${USER}
