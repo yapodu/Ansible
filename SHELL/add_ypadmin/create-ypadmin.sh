@@ -66,6 +66,14 @@ chown ${USER} ~ypadmin/${USER_SSH_DIR}
 chown ${USER} ~ypadmin/${USER_SSH_AUTHPATH}
 
 # sshd設定変更
+grep '#PermitRootLogin yes' ${SSHD_CONFIG}
+
+if [ "$?" -eq 0 ]
+then
+	echo "not change sshd_config PermitRootLogin ${DATE}" >> ~ypadmin/${CREATE_LOG}
+else
+	sed -i -e 's/#PermitRootLogin.*yes/PermitRootLogin no/g' ${SSHD_CONFIG}
+fi
 
 grep  ^AllowUsers ${SSHD_CONFIG} | grep ${USER}
 
